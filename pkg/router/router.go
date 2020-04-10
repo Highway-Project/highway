@@ -6,6 +6,6 @@ import (
 )
 
 type Router interface {
-	AddRoute(rule rules.Rule) error
+	AddRule(rule rules.Rule) error
 	ServeHTTP(w http.ResponseWriter, req *http.Request)
 }

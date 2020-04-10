@@ -6,12 +6,12 @@ import (
 )
 
 type Rule struct {
-	service     service.Service
-	schema      string
-	pathPrefix  string
-	host        string
-	methods     []string
-	headers     map[string]string
-	queries     map[string]string
-	middlewares []func(http.Handler) http.Handler
+	Service     service.Service
+	Schema      string
+	PathPrefix  string
+	Host        string
+	Methods     []string
+	Headers     map[string]string
+	Queries     map[string]string
+	Middlewares []func(http.Handler) http.Handler
 }
