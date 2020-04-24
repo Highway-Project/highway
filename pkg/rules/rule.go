@@ -10,9 +10,9 @@ type Rule struct {
 	Service     service.Service
 	Schema      string
 	PathPrefix  string
-	Host        string
+	Host        []string
 	Methods     []string
-	Headers     map[string]string
+	Headers     map[string][]string
 	Queries     map[string]string
 	Middlewares []middlewares.Middleware
 }
