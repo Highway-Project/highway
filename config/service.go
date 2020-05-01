@@ -10,7 +10,7 @@ type ServiceSpec struct {
 
 type BackendSpec struct {
 	BackendName string `mapstructure:"name"`
-	Weight      int    `default:"1" mapstructure:"weight"`
+	Weight      int8    `default:"1" mapstructure:"weight"`
 	Address     string `mapstructure:"address"`
 }
 

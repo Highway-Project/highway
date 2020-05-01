@@ -1,23 +1,26 @@
 router:
-  name: gin
+  name: gorilla
   options:
     key: val
     key2: val2
 
 services:
-  - name: service-a
-    loadbalancer: round-robin
+  - name: test-service
+    loadbalancer: random
     backends:
-      - name: a
+      - name: first
         weight: 1
-        address: https://google.com
+        address: http://localhost:9092
+      - name: second
+        weight: 2
+        address: http://localhost:9093
 
 rules:
-  - service: service-a
-    schema: https
-    path-prefix: /pre
+  - service: test-service
+    schema: http
+    path-prefix: /test
     hosts:
-      - www.foo.bar
+      - localhost
     methods:
       - GET
       - POST
@@ -31,9 +34,7 @@ rules:
     queries:
       key: val
       key2: val2
-    middlewares:
-      - middleware-1
-      - middleware-2
+    middlewares: []
 
 middlewares:
   - name: custom-1
