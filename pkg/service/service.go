@@ -12,6 +12,10 @@ type Service struct {
 	LB LoadBalancer
 }
 
+func (s *Service) StartHealthCheck() {
+
+}
+
 func (s *Service) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	uri := s.LB.Balance(s.Backends)
 	remote, err := url.Parse(uri.Addr)

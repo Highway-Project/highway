@@ -82,6 +82,8 @@ func (c Config) Validate() error {
 }
 
 func ReadConfig() (*Config, error) {
+
+	//TODO Read configs via providers
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(".")
@@ -99,6 +101,8 @@ func ReadConfig() (*Config, error) {
 
 	config.services = make(map[string]ServiceSpec)
 	config.middlewares = make(map[string]MiddlewareSpec)
+
+	//TODO Write middleware loading logic
 
 	for _, s := range config.ServicesSpecs {
 		if s.ServiceName != "" {
