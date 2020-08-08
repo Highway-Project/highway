@@ -1,0 +1,167 @@
+package config
+
+import "fmt"
+
+type ServiceNotFoundError struct {
+	ServiceName string
+}
+
+func (s ServiceNotFoundError) Error() string {
+	return fmt.Sprintf("service \" %s \" not found", s.ServiceName)
+}
+
+type MiddlewareNotFoundError struct {
+	MiddlewareName string
+}
+
+func (m MiddlewareNotFoundError) Error() string {
+	return fmt.Sprintf("middleware \" %s \" not found", m.MiddlewareName)
+}
+
+type ServiceValidationError struct {
+	NameError                bool
+	NameErrorMessage         string
+	LoadBalancerError        bool
+	LoadBalancerErrorMessage string
+	BackendError             bool
+	BackendErrorMessage      string
+}
+
+func (s ServiceValidationError) Error() string {
+	message := "ServiceValidationError - "
+	if s.NameError {
+		message += fmt.Sprintf("NameError: %s ,", s.NameErrorMessage)
+	}
+
+	if s.LoadBalancerError {
+		message += fmt.Sprintf("LoadBalancerError: %s ,", s.LoadBalancerErrorMessage)
+	}
+
+	if s.BackendError {
+		message += fmt.Sprintf("BackendError: %s ,", s.BackendErrorMessage)
+	}
+
+	return message
+}
+
+type BackendValidationError struct {
+	NameError           bool
+	NameErrorMessage    string
+	WeightError         bool
+	WeightErrorMessage  string
+	AddressError        bool
+	AddressErrorMessage string
+}
+
+func (b BackendValidationError) Error() string {
+	message := "BackendValidationError - "
+	if b.NameError {
+		message += fmt.Sprintf("NameError: %s ,", b.NameErrorMessage)
+	}
+
+	if b.WeightError {
+		message += fmt.Sprintf("LoadBalancerError: %s ,", b.WeightErrorMessage)
+	}
+
+	if b.AddressError {
+		message += fmt.Sprintf("BackendError: %s ,", b.AddressErrorMessage)
+	}
+
+	return message
+}
+
+type MiddlewareValidationError struct {
+	NameError              bool
+	NameErrorMessage       string
+	PluginPathError        bool
+	PluginPathErrorMessage string
+}
+
+func (m MiddlewareValidationError) Error() string {
+	message := "MiddlewareValidationError - "
+	if m.NameError {
+		message += fmt.Sprintf("NameError: %s ,", m.NameErrorMessage)
+	}
+
+	if m.PluginPathError {
+		message += fmt.Sprintf("PluginPathError: %s ,", m.PluginPathErrorMessage)
+	}
+
+	return message
+}
+
+type RouterValidationError struct {
+	NameError        bool
+	NameErrorMessage string
+}
+
+func (r RouterValidationError) Error() string {
+	return fmt.Sprintf("RouterValidationError - NameError: %s", r.NameErrorMessage)
+}
+
+type RuleValidationError struct {
+	NameError                   bool
+	NameErrorMessage            string
+	SchemaError                 bool
+	SchemaErrorMessage          string
+	PathPrefixError             bool
+	PathPrefixErrorMessage      string
+	HostsError                  bool
+	HostsErrorMessage           string
+	MethodsError                bool
+	MethodsErrorMessage         string
+	HeadersError                bool
+	HeadersErrorMessage         string
+	QueriesError                bool
+	QueriesErrorMessage         string
+	MiddlewareNamesError        bool
+	MiddlewareNamesErrorMessage string
+}
+
+func (r RuleValidationError) Error() string {
+	message := "RuleValidationError - "
+
+	if r.NameError {
+		message += fmt.Sprintf("NameError: %s ,", r.NameErrorMessage)
+	}
+
+	if r.SchemaError {
+		message += fmt.Sprintf("SchemaError: %s ,", r.SchemaErrorMessage)
+	}
+
+	if r.PathPrefixError {
+		message += fmt.Sprintf("PathPrefixError: %s ,", r.PathPrefixErrorMessage)
+	}
+
+	if r.HostsError {
+		message += fmt.Sprintf("HostsError: %s ,", r.HostsErrorMessage)
+	}
+
+	if r.MethodsError {
+		message += fmt.Sprintf("MethodsError: %s ,", r.MethodsErrorMessage)
+	}
+
+	if r.HeadersError {
+		message += fmt.Sprintf("HeadersError: %s ,", r.HeadersErrorMessage)
+	}
+
+	if r.QueriesError {
+		message += fmt.Sprintf("QueriesError: %s ,", r.QueriesErrorMessage)
+	}
+
+	if r.MiddlewareNamesError {
+		message += fmt.Sprintf("MiddlewareNamesError: %s ,", r.MiddlewareNamesErrorMessage)
+	}
+
+	return message
+}
+
+type ConfigValidationError struct {
+	Message string
+}
+
+func (c ConfigValidationError) Error() string {
+	return c.Message
+}
+
+

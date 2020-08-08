@@ -1,0 +1,50 @@
+router:
+  name: gorilla
+  options:
+    key: val
+    key2: val2
+
+services:
+  - name: test-service
+    loadbalancer: random
+    backends:
+      - name: first
+        weight: 1
+        address: http://localhost:9092
+      - name: second
+        weight: 2
+        address: http://localhost:9093
+
+rules:
+  - service: test-service
+    schema: http
+    pathPrefix: /test
+    hosts:
+      - localhost
+    methods:
+      - GET
+      - POST
+    headers:
+      key:
+        - val1
+        - val2
+      key2:
+        - val11
+        - val12
+    queries:
+      key: val
+      key2: val2
+    middlewares: []
+
+middlewares:
+  - middlewareName: custom-1
+    customMiddleware: true
+    middlewarePath: /path/to/file.so
+    params:
+      key: val
+      key1: val
+  - middlewareName: middleware-2
+    refName: m2
+    params:
+      key: val
+      key1: val
