@@ -2,8 +2,8 @@ package server
 
 import (
 	"context"
-	"github.com/fiust/highway/pkg/router"
-	"github.com/fiust/highway/pkg/rules"
+	"github.com/Highway-Project/highway/pkg/router"
+	"github.com/Highway-Project/highway/pkg/rules"
 	"net/http"
 	"time"
 )

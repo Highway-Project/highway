@@ -1,7 +1,7 @@
 package random
 
 import (
-	"github.com/fiust/highway/pkg/service"
+	"github.com/Highway-Project/highway/pkg/service"
 	"math/rand"
 	"time"
 )
@@ -14,7 +14,7 @@ func Register() {
 	}
 }
 
-type RandomLoadBalancer struct {}
+type RandomLoadBalancer struct{}
 
 func (r RandomLoadBalancer) Balance(backends []service.Backend) service.Backend {
 	index := rand.Intn(len(backends))

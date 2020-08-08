@@ -2,7 +2,7 @@ package router
 
 import (
 	"errors"
-	"github.com/fiust/highway/pkg/rules"
+	"github.com/Highway-Project/highway/pkg/rules"
 	"net/http"
 )
 
@@ -32,7 +32,7 @@ func RegisterRouter(name string, constructor func(options RouterOptions) (Router
 
 func NewRouter(name string, options RouterOptions) (Router, error) {
 	constructor, exists := routerConstructors[name]
-	if ! exists {
+	if !exists {
 		return nil, errors.New("Router with this name does not exists: " + name)
 	}
 	r, err := constructor(options)

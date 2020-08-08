@@ -1,8 +1,8 @@
 package gorilla
 
 import (
-	"github.com/fiust/highway/pkg/router"
-	"github.com/fiust/highway/pkg/rules"
+	"github.com/Highway-Project/highway/pkg/router"
+	"github.com/Highway-Project/highway/pkg/rules"
 	"github.com/gorilla/mux"
 	"net/http"
 )
@@ -33,7 +33,7 @@ func (r *MuxRouter) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 func New(options router.RouterOptions) (router.Router, error) {
 	var router router.Router
 	router = &MuxRouter{
-		router:mux.NewRouter(),
+		router: mux.NewRouter(),
 	}
 	return router, nil
 }

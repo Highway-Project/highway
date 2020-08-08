@@ -1,8 +1,8 @@
 package rules
 
 import (
-	"github.com/fiust/highway/pkg/middlewares"
-	"github.com/fiust/highway/pkg/service"
+	"github.com/Highway-Project/highway/pkg/middlewares"
+	"github.com/Highway-Project/highway/pkg/service"
 	"net/http"
 )
 

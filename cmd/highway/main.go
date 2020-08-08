@@ -1,16 +1,16 @@
 package main
 
 import (
+	"github.com/Highway-Project/highway/config"
+	_ "github.com/Highway-Project/highway/config"
+	"github.com/Highway-Project/highway/internal/server"
+	"github.com/Highway-Project/highway/pkg/middlewares"
+	"github.com/Highway-Project/highway/pkg/router"
+	"github.com/Highway-Project/highway/pkg/router/gorilla"
+	"github.com/Highway-Project/highway/pkg/rules"
+	"github.com/Highway-Project/highway/pkg/service"
+	"github.com/Highway-Project/highway/pkg/service/random"
 	"github.com/creasty/defaults"
-	"github.com/fiust/highway/config"
-	_ "github.com/fiust/highway/config"
-	"github.com/fiust/highway/internal/server"
-	"github.com/fiust/highway/pkg/middlewares"
-	"github.com/fiust/highway/pkg/router"
-	"github.com/fiust/highway/pkg/router/gorilla"
-	"github.com/fiust/highway/pkg/rules"
-	"github.com/fiust/highway/pkg/service"
-	"github.com/fiust/highway/pkg/service/random"
 	"log"
 )
 
@@ -41,8 +41,6 @@ func main() {
 	if err != nil {
 		panic("ruleList init " + err.Error())
 	}
-
-
 
 	s, err := server.New(r, ruleList)
 	log.Fatal(s.Run())
@@ -111,7 +109,7 @@ func createRules(specs []config.RuleSpec, conf *config.Config) ([]rules.Rule, er
 	return result, nil
 }
 
-func createService(spec *config.ServiceSpec) (service.Service, error){
+func createService(spec *config.ServiceSpec) (service.Service, error) {
 	backends := make([]service.Backend, len(spec.BackendsSpecs))
 
 	for i, backendSpec := range spec.BackendsSpecs {

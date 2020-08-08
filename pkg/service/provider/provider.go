@@ -1,6 +1,6 @@
 package provider
 
-import "github.com/fiust/highway/pkg/service"
+import "github.com/Highway-Project/highway/pkg/service"
 
 type Message struct {
 	Type         string
@@ -9,6 +9,6 @@ type Message struct {
 }
 
 type ServiceProvider interface {
-	Provide() ([]service.Service , error)
+	Provide() ([]service.Service, error)
 	Watch(messageChan chan<- Message) error
 }

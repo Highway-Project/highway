@@ -1,15 +1,15 @@
 package file
 
 import (
-	"github.com/fiust/highway/pkg/service"
-	"github.com/fiust/highway/pkg/service/provider"
+	"github.com/Highway-Project/highway/pkg/service"
+	"github.com/Highway-Project/highway/pkg/service/provider"
 )
 
 type FileProvider struct {
 	FilePath string
 }
 
-func (f FileProvider) Provide() ([]service.Service , error) {
+func (f FileProvider) Provide() ([]service.Service, error) {
 	return nil, nil
 }
 
