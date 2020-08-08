@@ -8,7 +8,7 @@ import (
 type RuleSpec struct {
 	ServiceName     string              `mapstructure:"service"`
 	Schema          string              `default:"http" mapstructure:"schema"`
-	PathPrefix      string              `default:"/" mapstructure:"path-prefix"`
+	PathPrefix      string              `default:"/" mapstructure:"pathPrefix"`
 	Hosts           []string            `mapstructure:"hosts"`
 	Methods         []string            `mapstructure:"methods"`
 	Headers         map[string][]string `mapstructure:"headers"`
@@ -43,7 +43,7 @@ func (r RuleSpec) Validate() error {
 
 	// Validate Hosts
 	for _, host := range r.Hosts {
-		if ! govalidator.IsHost(host) {
+		if !govalidator.IsHost(host) {
 			validationError.HostsError = true
 			validationError.HostsErrorMessage = "host fields are invalid"
 			isValid = false

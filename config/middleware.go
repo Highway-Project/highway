@@ -3,9 +3,11 @@ package config
 import "github.com/asaskevich/govalidator"
 
 type MiddlewareSpec struct {
-	MiddlewareName string            `mapstructure:"name"`
-	PluginPath     string            `mapstructure:"plugin-path"`
-	Params         map[string]string `mapstructure:"params"`
+	MiddlewareName   string            `mapstructure:"middlewareName"`
+	RefName          string            `mapstructure:"refName"`
+	MiddlewarePath   string            `mapstructure:"middlewarePath"`
+	CustomMiddleware bool              `mapstructure:"customMiddleware"`
+	Params           map[string]string `mapstructure:"params"`
 }
 
 func (m MiddlewareSpec) Validate() error {
@@ -20,7 +22,7 @@ func (m MiddlewareSpec) Validate() error {
 	}
 
 	// Validate PluginPath
-	if  ok, _ := govalidator.IsFilePath(m.PluginPath); m.PluginPath != "" && !ok {
+	if ok, _ := govalidator.IsFilePath(m.MiddlewarePath); m.MiddlewarePath != "" && !ok {
 		validationError.PluginPathError = true
 		validationError.PluginPathErrorMessage = "plugin-path field for middleware should a valid file path"
 		isValid = false

@@ -15,6 +15,7 @@ type Server struct {
 }
 
 func (s *Server) Run() error {
+	// TODO: read parameters from struct
 	srv := http.Server{
 		Addr:              ":8080",
 		Handler:           s.Router,

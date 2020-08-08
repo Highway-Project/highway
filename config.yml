@@ -18,7 +18,7 @@ services:
 rules:
   - service: test-service
     schema: http
-    path-prefix: /test
+    pathPrefix: /test
     hosts:
       - localhost
     methods:
@@ -37,12 +37,14 @@ rules:
     middlewares: []
 
 middlewares:
-  - name: custom-1
-    plugin-path: /path/to/file.so
+  - middlewareName: custom-1
+    customMiddleware: true
+    middlewarePath: /path/to/file.so
     params:
       key: val
       key1: val
-  - name: middleware-2
+  - middlewareName: middleware-2
+    refName: m2
     params:
       key: val
       key1: val
