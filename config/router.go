@@ -18,7 +18,7 @@ func (r RouterSpec) Validate() error {
 	// TODO Check router implementation existence
 
 	if isValid {
-		return  nil
+		return nil
 	}
 	return validationError
 }

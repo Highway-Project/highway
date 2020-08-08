@@ -7,9 +7,9 @@ import (
 )
 
 type Service struct {
-	Name string
+	Name     string
 	Backends []Backend
-	LB LoadBalancer
+	LB       LoadBalancer
 }
 
 func (s *Service) StartHealthCheck() {
@@ -26,8 +26,3 @@ func (s *Service) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	proxy := httputil.NewSingleHostReverseProxy(remote)
 	proxy.ServeHTTP(w, r)
 }
-
-
-
-
-
