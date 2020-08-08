@@ -58,7 +58,6 @@ func (c Config) Validate() error {
 		}
 	}
 
-
 	if ruleErr != nil {
 		return ruleErr
 	}
@@ -72,11 +71,9 @@ func (c Config) Validate() error {
 		}
 	}
 
-
 	if middlewareErr != nil {
 		return middlewareErr
 	}
-
 
 	return nil
 }

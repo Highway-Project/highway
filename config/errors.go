@@ -163,5 +163,3 @@ type ConfigValidationError struct {
 func (c ConfigValidationError) Error() string {
 	return c.Message
 }
-
-

@@ -25,7 +25,7 @@ func RegisterLoadBalancer(name string, constructor func() (LoadBalancer, error))
 
 func NewLoadBalancer(name string) (LoadBalancer, error) {
 	constructor, exists := loadBalancerConstructors[name]
-	if ! exists {
+	if !exists {
 		return nil, errors.New("LoadBalancer with this name does not exists: " + name)
 	}
 	lb, err := constructor()

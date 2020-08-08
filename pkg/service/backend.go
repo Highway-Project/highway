@@ -6,7 +6,6 @@ const (
 	Disrupted
 )
 
-
 type Backend struct {
 	Name   string
 	Addr   string

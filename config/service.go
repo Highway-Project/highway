@@ -10,7 +10,7 @@ type ServiceSpec struct {
 
 type BackendSpec struct {
 	BackendName string `mapstructure:"name"`
-	Weight      int8    `default:"1" mapstructure:"weight"`
+	Weight      int8   `default:"1" mapstructure:"weight"`
 	Address     string `mapstructure:"address"`
 }
 
@@ -61,7 +61,6 @@ func (s ServiceSpec) Validate() error {
 	return validationError
 }
 
-
 func (b BackendSpec) Validate() error {
 	validationError := BackendValidationError{}
 	isValid := true
@@ -81,7 +80,7 @@ func (b BackendSpec) Validate() error {
 	}
 
 	// Validate Address
-	if ! govalidator.IsURL(b.Address) {
+	if !govalidator.IsURL(b.Address) {
 		validationError.AddressError = true
 		validationError.AddressErrorMessage = "address field for backend should be in URL format"
 		isValid = false
@@ -92,4 +91,3 @@ func (b BackendSpec) Validate() error {
 	}
 	return validationError
 }
-
