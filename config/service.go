@@ -3,7 +3,7 @@ package config
 import "github.com/asaskevich/govalidator"
 
 type ServiceSpec struct {
-	ServiceName      string        `mapstructure:"name"`
+	Name             string        `mapstructure:"name"`
 	LoadBalancerName string        `default:"round-robin" mapstructure:"loadbalancer"`
 	BackendsSpecs    []BackendSpec `mapstructure:"backends"`
 }
@@ -19,7 +19,7 @@ func (s ServiceSpec) Validate() error {
 	isValid := true
 
 	//Validate name
-	if s.ServiceName == "" {
+	if s.Name == "" {
 		validationError.NameError = true
 		validationError.NameErrorMessage = "name field for service is required"
 		isValid = false

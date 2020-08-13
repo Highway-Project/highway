@@ -1,27 +1,44 @@
 package server
 
 import (
+	"fmt"
 	"github.com/Highway-Project/highway/config"
-	"github.com/Highway-Project/highway/pkg/router"
+	"github.com/Highway-Project/highway/internal/router"
+	"github.com/Highway-Project/highway/internal/rule"
+	"github.com/Highway-Project/highway/internal/service"
+	"github.com/Highway-Project/highway/logging"
+	pkgRouter "github.com/Highway-Project/highway/pkg/router"
 	"net/http"
-	"time"
 )
 
-type Server struct {
-	router            router.Router
-	httpServer        http.Server
-	port              string
-	readTimeout       time.Duration
-	readHeaderTimeout time.Duration
-	writeTimeout      time.Duration
-	idleTimeout       time.Duration
-	maxHeaderBytes    int
-}
-
-func (s *Server) Run() error {
-	return s.httpServer.ListenAndServe()
-}
-
-func NewServer(global config.GlobalConfig, routerSpec config.RouterSpec, servicesSpec []config.ServiceSpec, rulesSpec []config.RuleSpec, middlewaresSpec []config.MiddlewareSpec) (*Server, error)  {
-	return &Server{}, nil
+func NewServer(global config.GlobalConfig, routerSpec config.RouterSpec, servicesSpec []config.ServiceSpec, rulesSpec []config.RuleSpec, middlewaresSpec []config.MiddlewareSpec) (*http.Server, error) {
+	r, err := router.NewRouter(routerSpec.Name, pkgRouter.RouterOptions{
+		Options: routerSpec.RouterOpts,
+	})
+	if err != nil {
+		logging.Logger.WithError(err).Fatal("could not create router")
+	}
+	for _, spec := range servicesSpec {
+		_, err := service.NewService(spec)
+		if err != nil {
+			logging.Logger.WithError(err).Errorf("could not create service %s", spec.Name)
+		}
+	}
+	rules, err := rule.NewRules(rulesSpec)
+	for _, ruleObj := range rules {
+		err := r.AddRule(ruleObj)
+		if err != nil {
+			logging.Logger.WithError(err).Errorf("could not create rule for service %s", ruleObj.Service.Name)
+		}
+	}
+	s := http.Server{
+		Addr:              fmt.Sprintf(":%s", global.Port),
+		Handler:           r,
+		ReadTimeout:       global.ReadTimeout,
+		ReadHeaderTimeout: global.ReadHeaderTimeout,
+		WriteTimeout:      global.WriteTimeout,
+		IdleTimeout:       global.IdleTimeout,
+		MaxHeaderBytes:    global.MaxHeaderBytes,
+	}
+	return &s, nil
 }

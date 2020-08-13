@@ -7,13 +7,6 @@ import (
 	"net/http"
 )
 
-func Register() {
-	err := router.RegisterRouter("gorilla", New)
-	if err != nil {
-		panic("failed registering gorilla router")
-	}
-}
-
 type MuxRouter struct {
 	router *mux.Router
 }
