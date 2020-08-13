@@ -3,16 +3,7 @@ package random
 import (
 	"github.com/Highway-Project/highway/pkg/service"
 	"math/rand"
-	"time"
 )
-
-func Register() {
-	rand.Seed(time.Now().Unix())
-	err := service.RegisterLoadBalancer("random", New)
-	if err != nil {
-		panic("could not register random load balancer")
-	}
-}
 
 type RandomLoadBalancer struct{}
 

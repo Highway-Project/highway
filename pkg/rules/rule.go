@@ -7,7 +7,7 @@ import (
 )
 
 type Rule struct {
-	Service     service.Service
+	Service     *service.Service
 	Schema      string
 	PathPrefix  string
 	Hosts       []string
@@ -17,6 +17,6 @@ type Rule struct {
 	Middlewares []middlewares.Middleware
 }
 
-func (rule Rule) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (rule *Rule) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	rule.Service.ServeHTTP(w, r)
 }

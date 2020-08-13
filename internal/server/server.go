@@ -1,62 +1,45 @@
 package server
 
 import (
-	"context"
-	"github.com/Highway-Project/highway/pkg/router"
-	"github.com/Highway-Project/highway/pkg/rules"
+	"fmt"
+	"github.com/Highway-Project/highway/config"
+	"github.com/Highway-Project/highway/internal/router"
+	"github.com/Highway-Project/highway/internal/rule"
+	"github.com/Highway-Project/highway/internal/service"
+	"github.com/Highway-Project/highway/logging"
+	pkgRouter "github.com/Highway-Project/highway/pkg/router"
 	"net/http"
 	"time"
 )
 
-type Server struct {
-	Router router.Router
-	Rules  []rules.Rule
-	srv    http.Server
-}
-
-func (s *Server) Run() error {
-	// TODO: read parameters from struct
-	srv := http.Server{
-		Addr:              ":8080",
-		Handler:           s.Router,
-		TLSConfig:         nil,
-		ReadTimeout:       time.Second * 2,
-		ReadHeaderTimeout: 0,
-		WriteTimeout:      time.Second * 2,
-		IdleTimeout:       0,
-		MaxHeaderBytes:    0,
-		TLSNextProto:      nil,
-		ConnState:         nil,
-		ErrorLog:          nil,
-		BaseContext:       nil,
-		ConnContext:       nil,
-	}
-	s.srv = srv
-	return srv.ListenAndServe()
-}
-
-func (s *Server) Stop() error {
-	return s.srv.Shutdown(context.Background())
-}
-
-func New(router router.Router, rules []rules.Rule) (*Server, error) {
-	s := &Server{
-		Router: router,
-		Rules:  rules,
-	}
-	err := s.registerRules()
+func NewServer(global config.GlobalConfig, routerSpec config.RouterSpec, servicesSpec []config.ServiceSpec, rulesSpec []config.RuleSpec, middlewaresSpec []config.MiddlewareSpec) (*http.Server, error) {
+	r, err := router.NewRouter(routerSpec.Name, pkgRouter.RouterOptions{
+		Options: routerSpec.RouterOpts,
+	})
 	if err != nil {
-		return nil, nil
+		logging.Logger.WithError(err).Fatal("could not create router")
 	}
-	return s, nil
-}
-
-func (s *Server) registerRules() error {
-	for _, rule := range s.Rules {
-		err := s.Router.AddRule(rule)
+	for _, spec := range servicesSpec {
+		_, err := service.NewService(spec)
 		if err != nil {
-			return err
+			logging.Logger.WithError(err).Errorf("could not create service %s", spec.Name)
 		}
 	}
-	return nil
+	rules, err := rule.NewRules(rulesSpec)
+	for _, ruleObj := range rules {
+		err := r.AddRule(ruleObj)
+		if err != nil {
+			logging.Logger.WithError(err).Errorf("could not create rule for service %s", ruleObj.Service.Name)
+		}
+	}
+	s := http.Server{
+		Addr:              fmt.Sprintf(":%s", global.Port),
+		Handler:           r,
+		ReadTimeout:       global.ReadTimeout * time.Millisecond,
+		ReadHeaderTimeout: global.ReadHeaderTimeout * time.Millisecond,
+		WriteTimeout:      global.WriteTimeout * time.Millisecond,
+		IdleTimeout:       global.IdleTimeout * time.Millisecond,
+		MaxHeaderBytes:    global.MaxHeaderBytes,
+	}
+	return &s, nil
 }

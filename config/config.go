@@ -5,6 +5,7 @@ import (
 )
 
 type Config struct {
+	Global           GlobalConfig              `mapstructure:"global"`
 	RouterSpec       RouterSpec                `mapstructure:"router"`
 	ServicesSpecs    []ServiceSpec             `mapstructure:"services"`
 	RulesSpecs       []RuleSpec                `mapstructure:"rules"`
@@ -102,8 +103,8 @@ func ReadConfig() (*Config, error) {
 	//TODO Write middleware loading logic
 
 	for _, s := range config.ServicesSpecs {
-		if s.ServiceName != "" {
-			config.services[s.ServiceName] = s
+		if s.Name != "" {
+			config.services[s.Name] = s
 		}
 	}
 
