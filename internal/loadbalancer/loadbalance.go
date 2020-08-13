@@ -3,12 +3,15 @@ package loadbalancer
 import (
 	"errors"
 	"github.com/Highway-Project/highway/pkg/service"
+	"github.com/Highway-Project/highway/pkg/service/random"
 )
 
 var loadBalancerConstructors map[string]func() (service.LoadBalancer, error)
 
 func init() {
 	loadBalancerConstructors = make(map[string]func() (service.LoadBalancer, error))
+
+	_ = RegisterLoadBalancer("random", random.New)
 }
 
 func RegisterLoadBalancer(name string, constructor func() (service.LoadBalancer, error)) error {

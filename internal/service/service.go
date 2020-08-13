@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/Highway-Project/highway/config"
+	"github.com/Highway-Project/highway/internal/loadbalancer"
 	"github.com/Highway-Project/highway/logging"
 	"github.com/Highway-Project/highway/pkg/service"
 )
@@ -28,7 +29,7 @@ func NewService(spec config.ServiceSpec) (*service.Service, error) {
 		return nil, errors.New(msg)
 	}
 
-	lb, err := NewLoadBalancer(spec.LoadBalancerName)
+	lb, err := loadbalancer.NewLoadBalancer(spec.LoadBalancerName)
 	if err != nil {
 		msg := fmt.Sprintf("could not create loadbalancer %s for service %s", spec.LoadBalancerName, spec.Name)
 		logging.Logger.WithError(err).Error(msg)

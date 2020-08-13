@@ -10,5 +10,5 @@ type Backend struct {
 	Name   string
 	Addr   string
 	Weight int8
-	Status string
+	Status int
 }

@@ -9,6 +9,7 @@ import (
 	"github.com/Highway-Project/highway/logging"
 	pkgRouter "github.com/Highway-Project/highway/pkg/router"
 	"net/http"
+	"time"
 )
 
 func NewServer(global config.GlobalConfig, routerSpec config.RouterSpec, servicesSpec []config.ServiceSpec, rulesSpec []config.RuleSpec, middlewaresSpec []config.MiddlewareSpec) (*http.Server, error) {
@@ -34,10 +35,10 @@ func NewServer(global config.GlobalConfig, routerSpec config.RouterSpec, service
 	s := http.Server{
 		Addr:              fmt.Sprintf(":%s", global.Port),
 		Handler:           r,
-		ReadTimeout:       global.ReadTimeout,
-		ReadHeaderTimeout: global.ReadHeaderTimeout,
-		WriteTimeout:      global.WriteTimeout,
-		IdleTimeout:       global.IdleTimeout,
+		ReadTimeout:       global.ReadTimeout * time.Millisecond,
+		ReadHeaderTimeout: global.ReadHeaderTimeout * time.Millisecond,
+		WriteTimeout:      global.WriteTimeout * time.Millisecond,
+		IdleTimeout:       global.IdleTimeout * time.Millisecond,
 		MaxHeaderBytes:    global.MaxHeaderBytes,
 	}
 	return &s, nil

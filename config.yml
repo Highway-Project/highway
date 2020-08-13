@@ -4,7 +4,7 @@ global:
   readHeaderTimeout: 2000
   writeTimeout: 2000
   idleTimeout: 2000
-  maxHeaderBytes: 2000
+  maxHeaderBytes: 8196
 
 router:
   name: gorilla
