@@ -5,6 +5,7 @@ import (
 )
 
 type Config struct {
+	Global           GlobalConfig              `mapstructure:"global"`
 	RouterSpec       RouterSpec                `mapstructure:"router"`
 	ServicesSpecs    []ServiceSpec             `mapstructure:"services"`
 	RulesSpecs       []RuleSpec                `mapstructure:"rules"`

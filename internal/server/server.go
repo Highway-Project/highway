@@ -1,62 +1,27 @@
 package server
 
 import (
-	"context"
+	"github.com/Highway-Project/highway/config"
 	"github.com/Highway-Project/highway/pkg/router"
-	"github.com/Highway-Project/highway/pkg/rules"
 	"net/http"
 	"time"
 )
 
 type Server struct {
-	Router router.Router
-	Rules  []rules.Rule
-	srv    http.Server
+	router            router.Router
+	httpServer        http.Server
+	port              string
+	readTimeout       time.Duration
+	readHeaderTimeout time.Duration
+	writeTimeout      time.Duration
+	idleTimeout       time.Duration
+	maxHeaderBytes    int
 }
 
 func (s *Server) Run() error {
-	// TODO: read parameters from struct
-	srv := http.Server{
-		Addr:              ":8080",
-		Handler:           s.Router,
-		TLSConfig:         nil,
-		ReadTimeout:       time.Second * 2,
-		ReadHeaderTimeout: 0,
-		WriteTimeout:      time.Second * 2,
-		IdleTimeout:       0,
-		MaxHeaderBytes:    0,
-		TLSNextProto:      nil,
-		ConnState:         nil,
-		ErrorLog:          nil,
-		BaseContext:       nil,
-		ConnContext:       nil,
-	}
-	s.srv = srv
-	return srv.ListenAndServe()
+	return s.httpServer.ListenAndServe()
 }
 
-func (s *Server) Stop() error {
-	return s.srv.Shutdown(context.Background())
-}
-
-func New(router router.Router, rules []rules.Rule) (*Server, error) {
-	s := &Server{
-		Router: router,
-		Rules:  rules,
-	}
-	err := s.registerRules()
-	if err != nil {
-		return nil, nil
-	}
-	return s, nil
-}
-
-func (s *Server) registerRules() error {
-	for _, rule := range s.Rules {
-		err := s.Router.AddRule(rule)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
+func NewServer(global config.GlobalConfig, routerSpec config.RouterSpec, servicesSpec []config.ServiceSpec, rulesSpec []config.RuleSpec, middlewaresSpec []config.MiddlewareSpec) (*Server, error)  {
+	return &Server{}, nil
 }
