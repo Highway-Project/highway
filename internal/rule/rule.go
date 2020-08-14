@@ -16,17 +16,13 @@ func NewRule(spec config.RuleSpec) (rules.Rule, error) {
 		logging.Logger.WithError(err).Error(msg)
 		return rules.Rule{}, errors.Wrap(err, msg)
 	}
-	r := rules.Rule{
-		Service:     s,
-		Schema:      spec.Schema,
-		PathPrefix:  spec.PathPrefix,
-		Hosts:       spec.Hosts,
-		Methods:     spec.Methods,
-		Headers:     spec.Headers,
-		Queries:     spec.Queries,
-		Middlewares: nil,
+	r, err := rules.NewRule(s, spec.Schema, spec.PathPrefix, spec.Hosts, spec.Methods, spec.Headers, spec.Queries, nil)
+	if err != nil {
+		logging.Logger.WithError(err).Errorf("could not create rule for service %s", spec.ServiceName)
+		return rules.Rule{}, errors.Wrapf(err, "could not create rule for service %s", spec.ServiceName)
 	}
-	return r, nil
+
+	return *r, nil
 }
 
 func NewRules(specs []config.RuleSpec) ([]rules.Rule, error) {

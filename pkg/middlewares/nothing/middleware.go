@@ -7,8 +7,9 @@ import (
 
 type NothingMiddleware struct{}
 
-func (n NothingMiddleware) Process(handler http.Handler) http.Handler {
+func (n NothingMiddleware) Process(handler http.HandlerFunc) http.HandlerFunc {
 	return handler
+
 }
 
 func New(params middlewares.MiddlewareParams) middlewares.Middleware {

@@ -15,8 +15,31 @@ type Rule struct {
 	Headers     map[string][]string
 	Queries     map[string]string
 	Middlewares []middlewares.Middleware
+	handler     http.HandlerFunc
 }
 
 func (rule *Rule) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	rule.Service.ServeHTTP(w, r)
+	rule.handler.ServeHTTP(w, r)
+}
+
+func NewRule(srv *service.Service, schema string, pathPrefix string, hosts []string, methods []string,
+	headers map[string][]string, queries map[string]string, middlewareList []middlewares.Middleware) (*Rule, error) {
+	rule := Rule{
+		Service:     srv,
+		Schema:      schema,
+		PathPrefix:  pathPrefix,
+		Hosts:       hosts,
+		Methods:     methods,
+		Headers:     headers,
+		Queries:     queries,
+		Middlewares: middlewareList,
+	}
+
+	handler := rule.Service.ServeHTTP
+	for _, middleware := range middlewareList {
+		handler = middleware.Process(handler)
+	}
+	rule.handler = handler
+
+	return &rule, nil
 }
