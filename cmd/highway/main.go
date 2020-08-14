@@ -1,11 +1,16 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/Highway-Project/highway/config"
 	"github.com/Highway-Project/highway/internal/server"
 	"github.com/Highway-Project/highway/logging"
 	"github.com/creasty/defaults"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 )
 
 func main() {
@@ -39,6 +44,30 @@ func main() {
 	if err != nil {
 		logging.Logger.WithError(err).Fatal("could not create server")
 	}
-	logging.Logger.Infof("serving on port :%s", cfg.Global.Port)
-	logging.Logger.Fatal(s.ListenAndServe())
+
+	go func() {
+		logging.Logger.Infof("started serving on port :%s", cfg.Global.Port)
+		logging.Logger.Fatal(s.ListenAndServe())
+	}()
+
+	shutdown := make(chan os.Signal)
+
+	signal.Notify(shutdown, syscall.SIGINT, syscall.SIGTERM)
+
+	<-shutdown
+
+	logging.Logger.Info("shutting down highway gracefully")
+
+	s.SetKeepAlivesEnabled(false)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10 * time.Second)
+	defer cancel()
+
+	err = s.Shutdown(ctx)
+	if err != nil {
+		logging.Logger.WithError(err).Error("could not shutdown highway gracefully")
+	}
+
+	logging.Logger.Info("exiting highway")
+
 }
