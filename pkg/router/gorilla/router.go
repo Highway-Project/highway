@@ -12,7 +12,7 @@ type MuxRouter struct {
 }
 
 func (r *MuxRouter) AddRule(rule rules.Rule) error {
-	r.router.Handle(rule.PathPrefix, rule.Service).
+	r.router.Handle(rule.PathPrefix, &rule).
 		//Host(rule.Hosts[0]).
 		Schemes(rule.Schema).
 		Methods(rule.Methods...)

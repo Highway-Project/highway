@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"github.com/Highway-Project/highway/config"
+	"github.com/Highway-Project/highway/internal/middlewares"
 	"github.com/Highway-Project/highway/internal/router"
 	"github.com/Highway-Project/highway/internal/rule"
 	"github.com/Highway-Project/highway/internal/service"
@@ -19,12 +20,19 @@ func NewServer(global config.GlobalConfig, routerSpec config.RouterSpec, service
 	if err != nil {
 		logging.Logger.WithError(err).Fatal("could not create router")
 	}
+
 	for _, spec := range servicesSpec {
 		_, err := service.NewService(spec)
 		if err != nil {
 			logging.Logger.WithError(err).Errorf("could not create service %s", spec.Name)
 		}
 	}
+
+	err = middlewares.LoadMiddlewares(middlewaresSpec)
+	if err != nil {
+		logging.Logger.WithError(err).Fatal("could not load middlwares")
+	}
+
 	rules, err := rule.NewRules(rulesSpec)
 	for _, ruleObj := range rules {
 		err := r.AddRule(ruleObj)
@@ -32,6 +40,7 @@ func NewServer(global config.GlobalConfig, routerSpec config.RouterSpec, service
 			logging.Logger.WithError(err).Errorf("could not create rule for service %s", ruleObj.Service.Name)
 		}
 	}
+
 	s := http.Server{
 		Addr:              fmt.Sprintf(":%s", global.Port),
 		Handler:           r,
@@ -41,5 +50,6 @@ func NewServer(global config.GlobalConfig, routerSpec config.RouterSpec, service
 		IdleTimeout:       global.IdleTimeout * time.Millisecond,
 		MaxHeaderBytes:    global.MaxHeaderBytes,
 	}
+
 	return &s, nil
 }

@@ -26,7 +26,7 @@ services:
 rules:
   - service: test-service
     schema: http
-    pathPrefix: /test
+    pathPrefix: /
     hosts:
       - localhost
     methods:
@@ -42,7 +42,9 @@ rules:
     queries:
       key: val
       key2: val2
-    middlewares: []
+    middlewares:
+      - nothing
+      - nothing2
 
 middlewares:
   - middlewareName: custom-1
@@ -51,8 +53,10 @@ middlewares:
     params:
       key: val
       key1: val
-  - middlewareName: middleware-2
-    refName: m2
+  - middlewareName: nothing
     params:
-      key: val
-      key1: val
+      msg: "hello"
+  - middlewareName: nothing
+    refName: nothing2
+    params:
+      msg: "hi"
