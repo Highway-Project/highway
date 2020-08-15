@@ -5,13 +5,17 @@ import (
 	"net/http"
 )
 
-type NothingMiddleware struct{}
-
-func (n NothingMiddleware) Process(handler http.HandlerFunc) http.HandlerFunc {
-	return handler
-
+type NothingMiddleware struct {
+	msg string
 }
 
-func New(params middlewares.MiddlewareParams) middlewares.Middleware {
-	return NothingMiddleware{}
+func (n NothingMiddleware) Process(handler http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set(n.msg, n.msg)
+		handler(w, r)
+	}
+}
+
+func New(params middlewares.MiddlewareParams) (middlewares.Middleware, error) {
+	return NothingMiddleware{msg: params.Params["msg"]}, nil
 }
