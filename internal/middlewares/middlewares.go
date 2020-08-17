@@ -10,7 +10,7 @@ import (
 	"plugin"
 )
 
-type CustomMiddlewareConstructor func(map[string]string) (interface{}, error)
+type CustomMiddlewareConstructor func(map[string]interface{}) (interface{}, error)
 
 var middlewareConstructors map[string]func(middlewares.MiddlewareParams) (middlewares.Middleware, error)
 var middlewareMap map[string]middlewares.Middleware

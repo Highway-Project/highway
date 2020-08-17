@@ -17,5 +17,5 @@ func (n NothingMiddleware) Process(handler http.HandlerFunc) http.HandlerFunc {
 }
 
 func New(params middlewares.MiddlewareParams) (middlewares.Middleware, error) {
-	return NothingMiddleware{msg: params.Params["msg"]}, nil
+	return NothingMiddleware{msg: params.Params["msg"].(string)}, nil
 }

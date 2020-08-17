@@ -7,5 +7,5 @@ type Middleware interface {
 }
 
 type MiddlewareParams struct {
-	Params map[string]string
+	Params map[string]interface{}
 }

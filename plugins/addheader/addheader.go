@@ -4,7 +4,6 @@ import (
 	"net/http"
 )
 
-
 type AddHeaderMiddleware struct {
 	key string
 	val string
@@ -17,9 +16,9 @@ func (a AddHeaderMiddleware) Process(handler http.HandlerFunc) http.HandlerFunc 
 	}
 }
 
-func New(params map[string]string) (interface{}, error) {
+func New(params map[string]interface{}) (interface{}, error) {
 	return AddHeaderMiddleware{
-		key: params["key"],
-		val: params["val"],
+		key: params["key"].(string),
+		val: params["val"].(string),
 	}, nil
 }

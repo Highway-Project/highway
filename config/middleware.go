@@ -1,11 +1,11 @@
 package config
 
 type MiddlewareSpec struct {
-	MiddlewareName   string            `mapstructure:"middlewareName"`
-	RefName          string            `mapstructure:"refName"`
-	MiddlewarePath   string            `mapstructure:"middlewarePath"`
-	CustomMiddleware bool              `mapstructure:"customMiddleware"`
-	Params           map[string]string `mapstructure:"params"`
+	MiddlewareName   string                 `mapstructure:"middlewareName"`
+	RefName          string                 `mapstructure:"refName"`
+	MiddlewarePath   string                 `mapstructure:"middlewarePath"`
+	CustomMiddleware bool                   `mapstructure:"customMiddleware"`
+	Params           map[string]interface{} `mapstructure:"params"`
 }
 
 func (m MiddlewareSpec) Validate() error {
