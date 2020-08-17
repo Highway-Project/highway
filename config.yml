@@ -43,16 +43,16 @@ rules:
       key: val
       key2: val2
     middlewares:
-      - nothing
+      - custom
       - nothing2
 
 middlewares:
-  - middlewareName: custom-1
+  - middlewareName: custom
     customMiddleware: true
-    middlewarePath: /path/to/file.so
+    middlewarePath: ./plugins/addheader/add.so
     params:
-      key: val
-      key1: val
+      key: Hello
+      val: World
   - middlewareName: nothing
     params:
       msg: "hello"

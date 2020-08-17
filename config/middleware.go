@@ -1,7 +1,5 @@
 package config
 
-import "github.com/asaskevich/govalidator"
-
 type MiddlewareSpec struct {
 	MiddlewareName   string            `mapstructure:"middlewareName"`
 	RefName          string            `mapstructure:"refName"`
@@ -22,11 +20,11 @@ func (m MiddlewareSpec) Validate() error {
 	}
 
 	// Validate PluginPath
-	if ok, _ := govalidator.IsFilePath(m.MiddlewarePath); m.MiddlewarePath != "" && !ok {
-		validationError.PluginPathError = true
-		validationError.PluginPathErrorMessage = "plugin-path field for middleware should a valid file path"
-		isValid = false
-	}
+	//if ok, _ := govalidator.IsFilePath(m.MiddlewarePath); m.MiddlewarePath != "" && !ok {
+	//	validationError.PluginPathError = true
+	//	validationError.PluginPathErrorMessage = "plugin-path field for middleware should a valid file path"
+	//	isValid = false
+	//}
 
 	// TODO Check plugin existence
 
