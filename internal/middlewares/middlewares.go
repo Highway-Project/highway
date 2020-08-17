@@ -6,6 +6,7 @@ import (
 	"github.com/Highway-Project/highway/config"
 	"github.com/Highway-Project/highway/logging"
 	"github.com/Highway-Project/highway/pkg/middlewares"
+	"github.com/Highway-Project/highway/pkg/middlewares/cors"
 	"github.com/Highway-Project/highway/pkg/middlewares/nothing"
 	"plugin"
 )
@@ -19,6 +20,7 @@ func init() {
 	middlewareConstructors = make(map[string]func(params middlewares.MiddlewareParams) (middlewares.Middleware, error))
 	middlewareMap = make(map[string]middlewares.Middleware)
 	_ = RegisterMiddleware("nothing", nothing.New)
+	_ = RegisterMiddleware("cors", cors.New)
 }
 
 func RegisterMiddleware(name string, constructor func(params middlewares.MiddlewareParams) (middlewares.Middleware, error)) error {

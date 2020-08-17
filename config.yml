@@ -45,6 +45,7 @@ rules:
     middlewares:
       - custom
       - nothing2
+      - cors
 
 middlewares:
   - middlewareName: custom
@@ -60,3 +61,8 @@ middlewares:
     refName: nothing2
     params:
       msg: "hi"
+  - middlewareName: cors
+    params:
+      AllowOrigins:
+        - highway.com
+        - example.com
