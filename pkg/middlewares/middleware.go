@@ -15,7 +15,7 @@ type MiddlewareParams struct {
 	Params map[string]interface{}
 }
 
-func (mp *MiddlewareParams) GetList(key string) (res []string, exists bool, err error) {
+func (mp *MiddlewareParams) GetStringList(key string) (res []string, exists bool, err error) {
 	v, exists := mp.Params[key]
 	if !exists {
 		return nil, exists, nil
@@ -24,7 +24,6 @@ func (mp *MiddlewareParams) GetList(key string) (res []string, exists bool, err 
 	_, ok := v.([]interface{})
 	if !ok {
 		msg := fmt.Sprintf("%s must be of type []string", key)
-		logging.Logger.WithError(err).Error(msg)
 		return nil, exists, errors.New(msg)
 	}
 
@@ -33,7 +32,6 @@ func (mp *MiddlewareParams) GetList(key string) (res []string, exists bool, err 
 		res[i], ok = value.(string)
 		if !ok {
 			msg := fmt.Sprintf("%s must be of type []string", key)
-			logging.Logger.WithError(err).Error(msg)
 			return nil, exists, errors.New(msg)
 		}
 	}
@@ -50,7 +48,6 @@ func (mp *MiddlewareParams) GetBool(key string) (res bool, exists bool, err erro
 	res, ok := v.(bool)
 	if !ok {
 		msg := fmt.Sprintf("%s must be of type bool", key)
-		logging.Logger.WithError(err).Error(msg)
 		return false, exists, errors.New(msg)
 	}
 

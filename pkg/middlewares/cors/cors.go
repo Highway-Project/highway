@@ -72,7 +72,7 @@ var (
 )
 
 func New(params middlewares.MiddlewareParams) (middlewares.Middleware, error) {
-	allowOrigins, exists, err := params.GetList(AllowOrigins)
+	allowOrigins, exists, err := params.GetStringList(AllowOrigins)
 	if err != nil {
 		return CORSMiddleware{}, err
 	}
@@ -80,7 +80,7 @@ func New(params middlewares.MiddlewareParams) (middlewares.Middleware, error) {
 		allowOrigins = DefaultCORSParams[AllowOrigins]
 	}
 
-	allowMethods, exists, err := params.GetList(AllowMethods)
+	allowMethods, exists, err := params.GetStringList(AllowMethods)
 	if err != nil {
 		return CORSMiddleware{}, err
 	}
@@ -88,7 +88,7 @@ func New(params middlewares.MiddlewareParams) (middlewares.Middleware, error) {
 		allowMethods = DefaultCORSParams[AllowMethods]
 	}
 
-	allowHeaders, _, err := params.GetList(AllowHeaders)
+	allowHeaders, _, err := params.GetStringList(AllowHeaders)
 	if err != nil {
 		return CORSMiddleware{}, err
 	}
@@ -98,7 +98,7 @@ func New(params middlewares.MiddlewareParams) (middlewares.Middleware, error) {
 		return CORSMiddleware{}, err
 	}
 
-	exposeHeaders, _, err := params.GetList(ExposeHeaders)
+	exposeHeaders, _, err := params.GetStringList(ExposeHeaders)
 	if err != nil {
 		return CORSMiddleware{}, err
 	}

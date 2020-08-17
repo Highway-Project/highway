@@ -60,7 +60,7 @@ func main() {
 
 	s.SetKeepAlivesEnabled(false)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10 * time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	err = s.Shutdown(ctx)
