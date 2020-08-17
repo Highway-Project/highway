@@ -55,19 +55,19 @@ const (
 )
 
 const (
-	AllowOrigins     = "AllowOrigins"
-	AllowMethods     = "AllowMethods"
-	AllowHeaders     = "AllowHeaders"
-	AllowCredentials = "AllowCredentials"
-	ExposeHeaders    = "ExposeHeaders"
-	MaxAge           = "MaxAge"
+	AllowOrigins     = "allowOrigins"
+	AllowMethods     = "allowMethods"
+	AllowHeaders     = "allowHeaders"
+	AllowCredentials = "allowCredentials"
+	ExposeHeaders    = "exposeHeaders"
+	MaxAge           = "maxAge"
 )
 
 var (
 	// DefaultCORSConfig is the default CORS middleware config.
 	DefaultCORSParams = map[string][]string{
-		AllowOrigins: []string{"*"},
-		AllowMethods: []string{http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodPost, http.MethodDelete},
+		AllowOrigins: {"*"},
+		AllowMethods: {http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodPost, http.MethodDelete},
 	}
 )
 

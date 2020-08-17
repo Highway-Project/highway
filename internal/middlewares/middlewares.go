@@ -11,8 +11,6 @@ import (
 	"plugin"
 )
 
-type CustomMiddlewareConstructor func(map[string]interface{}) (interface{}, error)
-
 var middlewareConstructors map[string]func(middlewares.MiddlewareParams) (middlewares.Middleware, error)
 var middlewareMap map[string]middlewares.Middleware
 
@@ -45,7 +43,7 @@ func loadCustomMiddleware(spec config.MiddlewareSpec) error {
 		logging.Logger.WithError(err).Errorf(msg)
 		return errors.New(msg)
 	}
-	constructor, ok := constructorSym.(CustomMiddlewareConstructor)
+	constructor, ok := constructorSym.(func(map[string]interface{}) (interface{}, error))
 	if !ok {
 		msg := fmt.Sprintf("New function for middleware %s is not valid", spec.MiddlewareName)
 		logging.Logger.WithError(err).Errorf(msg)
