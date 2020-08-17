@@ -19,12 +19,7 @@ func (m MiddlewareSpec) Validate() error {
 		isValid = false
 	}
 
-	// Validate PluginPath
-	//if ok, _ := govalidator.IsFilePath(m.MiddlewarePath); m.MiddlewarePath != "" && !ok {
-	//	validationError.PluginPathError = true
-	//	validationError.PluginPathErrorMessage = "plugin-path field for middleware should a valid file path"
-	//	isValid = false
-	//}
+	// TODO Validate PluginPath
 
 	// TODO Check plugin existence
 
