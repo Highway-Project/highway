@@ -6,11 +6,10 @@ import (
 	"github.com/Highway-Project/highway/config"
 	"github.com/Highway-Project/highway/logging"
 	"github.com/Highway-Project/highway/pkg/middlewares"
+	"github.com/Highway-Project/highway/pkg/middlewares/cors"
 	"github.com/Highway-Project/highway/pkg/middlewares/nothing"
 	"plugin"
 )
-
-type CustomMiddlewareConstructor func(map[string]string) (interface{}, error)
 
 var middlewareConstructors map[string]func(middlewares.MiddlewareParams) (middlewares.Middleware, error)
 var middlewareMap map[string]middlewares.Middleware
@@ -19,6 +18,7 @@ func init() {
 	middlewareConstructors = make(map[string]func(params middlewares.MiddlewareParams) (middlewares.Middleware, error))
 	middlewareMap = make(map[string]middlewares.Middleware)
 	_ = RegisterMiddleware("nothing", nothing.New)
+	_ = RegisterMiddleware("cors", cors.New)
 }
 
 func RegisterMiddleware(name string, constructor func(params middlewares.MiddlewareParams) (middlewares.Middleware, error)) error {
@@ -43,7 +43,7 @@ func loadCustomMiddleware(spec config.MiddlewareSpec) error {
 		logging.Logger.WithError(err).Errorf(msg)
 		return errors.New(msg)
 	}
-	constructor, ok := constructorSym.(CustomMiddlewareConstructor)
+	constructor, ok := constructorSym.(func(map[string]interface{}) (interface{}, error))
 	if !ok {
 		msg := fmt.Sprintf("New function for middleware %s is not valid", spec.MiddlewareName)
 		logging.Logger.WithError(err).Errorf(msg)
