@@ -156,10 +156,46 @@ func (r RuleValidationError) Error() string {
 	return message
 }
 
-type ConfigValidationError struct {
-	Message string
+type GlobalValidationError struct {
+	PortError                     bool
+	PortErrorMessage              string
+	ReadTimeoutError              bool
+	ReadTimeoutErrorMessage       string
+	ReadHeaderTimeoutError        bool
+	ReadHeaderTimeoutErrorMessage string
+	WriteTimeoutError             bool
+	WriteTimeoutErrorMessage      string
+	IdleTimeoutError              bool
+	IdleTimeoutErrorMessage       string
+	MaxHeaderBytesError           bool
+	MaxHeaderBytesErrorMessage    string
 }
 
-func (c ConfigValidationError) Error() string {
-	return c.Message
+func (g GlobalValidationError) Error() string {
+	message := "GlobalValidationError - "
+	if g.PortError {
+		message += fmt.Sprintf("PortError: %s, ", g.PortErrorMessage)
+	}
+
+	if g.ReadTimeoutError {
+		message += fmt.Sprintf("ReadTimeoutError: %s, ", g.ReadTimeoutErrorMessage)
+	}
+
+	if g.ReadHeaderTimeoutError {
+		message += fmt.Sprintf("ReadHeaderTimeoutError: %s, ", g.ReadHeaderTimeoutErrorMessage)
+	}
+
+	if g.WriteTimeoutError {
+		message += fmt.Sprintf("WriteTimeoutError: %s, ", g.WriteTimeoutErrorMessage)
+	}
+
+	if g.IdleTimeoutError {
+		message += fmt.Sprintf("IdleTimeoutError: %s, ", g.IdleTimeoutErrorMessage)
+	}
+
+	if g.MaxHeaderBytesError {
+		message += fmt.Sprintf("MaxHeaderBytesError: %s, ", g.MaxHeaderBytesErrorMessage)
+	}
+
+	return message
 }
