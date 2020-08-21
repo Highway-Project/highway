@@ -46,7 +46,7 @@ func main() {
 	}
 
 	go func() {
-		logging.Logger.Infof("started serving on port :%s", cfg.Global.Port)
+		logging.Logger.Infof("started serving on port :%d", cfg.Global.Port)
 		logging.Logger.Fatal(s.ListenAndServe())
 	}()
 

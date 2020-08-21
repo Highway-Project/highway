@@ -1,0 +1,5 @@
+plugins/
+.gitignore
+README.md
+bin/
+config.yaml
