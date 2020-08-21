@@ -1,5 +1,5 @@
 global:
-  port: "8080"
+  port: 8080
   readTimeout: 2000 # milliseconds
   readHeaderTimeout: 2000
   writeTimeout: 2000
