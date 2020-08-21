@@ -27,7 +27,7 @@ func (r *RateLimitMiddleware) Process(handler http.HandlerFunc) http.HandlerFunc
 			remainingCount, ok := remainingReqs.(int)
 			if !ok {
 				w.WriteHeader(http.StatusInternalServerError)
-				w.Write([]byte(`500 Internal Server error - Rate limit failed`))
+				w.Write([]byte(`500 Internal Server error`))
 				return
 			}
 
@@ -40,7 +40,7 @@ func (r *RateLimitMiddleware) Process(handler http.HandlerFunc) http.HandlerFunc
 			err := r.db.Decrement(rateLimitKey, 1)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
-				w.Write([]byte(`500 Internal Server error - Rate limit failed`))
+				w.Write([]byte(`500 Internal Server error`))
 				return
 			}
 
