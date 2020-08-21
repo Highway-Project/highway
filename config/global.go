@@ -3,7 +3,7 @@ package config
 import "time"
 
 type GlobalConfig struct {
-	Port              string        `mapstructure:"port"`
+	Port              int           `mapstructure:"port"`
 	ReadTimeout       time.Duration `mapstructure:"readTimeout"`
 	ReadHeaderTimeout time.Duration `mapstructure:"readHeaderTimeout"`
 	WriteTimeout      time.Duration `mapstructure:"writeTimeout"`

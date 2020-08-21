@@ -100,8 +100,6 @@ func ReadConfig() (*Config, error) {
 	config.services = make(map[string]ServiceSpec)
 	config.middlewares = make(map[string]MiddlewareSpec)
 
-	//TODO Write middleware loading logic
-
 	for _, s := range config.ServicesSpecs {
 		if s.Name != "" {
 			config.services[s.Name] = s

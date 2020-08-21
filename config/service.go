@@ -32,8 +32,6 @@ func (s ServiceSpec) Validate() error {
 		isValid = false
 	}
 
-	//TODO Validate LoadBalancer algorithm existence in app
-
 	//Validate Backends
 	if len(s.BackendsSpecs) == 0 {
 		validationError.BackendError = true

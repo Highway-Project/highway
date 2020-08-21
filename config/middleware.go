@@ -1,5 +1,10 @@
 package config
 
+import (
+	"fmt"
+	"os"
+)
+
 type MiddlewareSpec struct {
 	MiddlewareName   string                 `mapstructure:"middlewareName"`
 	RefName          string                 `mapstructure:"refName"`
@@ -19,9 +24,15 @@ func (m MiddlewareSpec) Validate() error {
 		isValid = false
 	}
 
-	// TODO Validate PluginPath
-
-	// TODO Check plugin existence
+	// Validate plugin path
+	if m.CustomMiddleware {
+		_, err := os.Stat(m.MiddlewarePath)
+		if err != nil {
+			validationError.PluginPathError = true
+			validationError.PluginPathErrorMessage = fmt.Sprintf("%s does not exists", m.MiddlewarePath)
+			isValid = false
+		}
+	}
 
 	if isValid {
 		return nil
