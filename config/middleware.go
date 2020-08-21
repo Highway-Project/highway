@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"os"
 )
 
@@ -29,7 +28,7 @@ func (m MiddlewareSpec) Validate() error {
 		_, err := os.Stat(m.MiddlewarePath)
 		if err != nil {
 			validationError.PluginPathError = true
-			validationError.PluginPathErrorMessage = fmt.Sprintf("%s does not exists", m.MiddlewarePath)
+			validationError.PluginPathErrorMessage = err.Error()
 			isValid = false
 		}
 	}
