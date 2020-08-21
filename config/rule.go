@@ -51,11 +51,6 @@ func (r RuleSpec) Validate() error {
 		}
 	}
 
-	// TODO Validate Methods
-	// TODO Validate Headers
-	// TODO Validate Queries
-	// TODO Validate Middleware Names
-
 	if isValid {
 		return nil
 	}

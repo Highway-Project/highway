@@ -42,7 +42,7 @@ func NewServer(global config.GlobalConfig, routerSpec config.RouterSpec, service
 	}
 
 	s := http.Server{
-		Addr:              fmt.Sprintf(":%s", global.Port),
+		Addr:              fmt.Sprintf(":%d", global.Port),
 		Handler:           r,
 		ReadTimeout:       global.ReadTimeout * time.Millisecond,
 		ReadHeaderTimeout: global.ReadHeaderTimeout * time.Millisecond,

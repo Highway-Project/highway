@@ -31,8 +31,12 @@ func (c Config) GetMiddlewareSpec(name string) (*MiddlewareSpec, error) {
 }
 
 func (c Config) Validate() error {
-	routerErr := c.RouterSpec.Validate()
+	globalErr := c.Global.Validate()
+	if globalErr != nil {
+		return globalErr
+	}
 
+	routerErr := c.RouterSpec.Validate()
 	if routerErr != nil {
 		return routerErr
 	}
@@ -45,7 +49,6 @@ func (c Config) Validate() error {
 			break
 		}
 	}
-
 	if serviceErr != nil {
 		return serviceErr
 	}
@@ -58,7 +61,6 @@ func (c Config) Validate() error {
 			break
 		}
 	}
-
 	if ruleErr != nil {
 		return ruleErr
 	}
@@ -71,7 +73,6 @@ func (c Config) Validate() error {
 			break
 		}
 	}
-
 	if middlewareErr != nil {
 		return middlewareErr
 	}
@@ -99,8 +100,6 @@ func ReadConfig() (*Config, error) {
 
 	config.services = make(map[string]ServiceSpec)
 	config.middlewares = make(map[string]MiddlewareSpec)
-
-	//TODO Write middleware loading logic
 
 	for _, s := range config.ServicesSpecs {
 		if s.Name != "" {
