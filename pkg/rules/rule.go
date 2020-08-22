@@ -12,7 +12,7 @@ type Rule struct {
 	PathPrefix  string
 	Hosts       []string
 	Methods     []string
-	Headers     map[string][]string
+	Headers     map[string]string
 	Queries     map[string]string
 	Middlewares []middlewares.Middleware
 	handler     http.HandlerFunc
@@ -23,7 +23,7 @@ func (rule *Rule) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func NewRule(srv *service.Service, schema string, pathPrefix string, hosts []string, methods []string,
-	headers map[string][]string, queries map[string]string, middlewareList []middlewares.Middleware) (*Rule, error) {
+	headers map[string]string, queries map[string]string, middlewareList []middlewares.Middleware) (*Rule, error) {
 	for i, j := 0, len(middlewareList)-1; i < j; i, j = i+1, j-1 {
 		middlewareList[i], middlewareList[j] = middlewareList[j], middlewareList[i]
 	}
