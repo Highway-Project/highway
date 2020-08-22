@@ -1,5 +1,5 @@
 GIT ?= git
-DOCKER_IMAGE := highway
+DOCKER_IMAGE := highwayproject/highway
 COMMIT := $(shell $(GIT) rev-parse HEAD)
 VERSION ?= $(shell $(GIT) describe --tags ${COMMIT} 2> /dev/null || echo "$(COMMIT)")
 
