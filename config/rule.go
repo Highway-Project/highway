@@ -6,6 +6,7 @@ import (
 )
 
 type RuleSpec struct {
+	Name            string            `mapstructure:"name"`
 	ServiceName     string            `mapstructure:"service"`
 	Schema          string            `default:"http" mapstructure:"schema"`
 	PathPrefix      string            `default:"/" mapstructure:"pathPrefix"`
@@ -20,10 +21,16 @@ func (r RuleSpec) Validate() error {
 	validationError := RuleValidationError{}
 	isValid := true
 
+	if r.Name == "" {
+		validationError.NameError = true
+		validationError.NameErrorMessage = "rule name is required"
+		isValid = false
+	}
+
 	// Validate Name
 	if r.ServiceName == "" {
-		validationError.NameError = true
-		validationError.NameErrorMessage = "service field for rule is required"
+		validationError.ServiceNameError = true
+		validationError.ServiceNameErrorMessage = "service field for rule is required"
 		isValid = false
 	}
 

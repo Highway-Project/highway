@@ -7,6 +7,7 @@ import (
 )
 
 type Rule struct {
+	Name        string
 	Service     *service.Service
 	Schema      string
 	PathPrefix  string
@@ -22,13 +23,14 @@ func (rule *Rule) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	rule.handler.ServeHTTP(w, r)
 }
 
-func NewRule(srv *service.Service, schema string, pathPrefix string, hosts []string, methods []string,
+func NewRule(srv *service.Service, name string, schema string, pathPrefix string, hosts []string, methods []string,
 	headers map[string]string, queries map[string]string, middlewareList []middlewares.Middleware) (*Rule, error) {
 	for i, j := 0, len(middlewareList)-1; i < j; i, j = i+1, j-1 {
 		middlewareList[i], middlewareList[j] = middlewareList[j], middlewareList[i]
 	}
 
 	rule := Rule{
+		Name:        name,
 		Service:     srv,
 		Schema:      schema,
 		PathPrefix:  pathPrefix,
