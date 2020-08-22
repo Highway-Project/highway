@@ -12,10 +12,32 @@ type MuxRouter struct {
 }
 
 func (r *MuxRouter) AddRule(rule rules.Rule) error {
-	r.router.Handle(rule.PathPrefix, &rule).
-		//Host(rule.Hosts[0]).
-		Schemes(rule.Schema).
-		Methods(rule.Methods...)
+	route := r.router.Schemes(rule.Schema).PathPrefix(rule.PathPrefix)
+
+	if rule.Hosts != nil {
+		for _, host := range rule.Hosts {
+			route.Host(host)
+		}
+	}
+
+	if rule.Methods != nil {
+		route.Methods(rule.Methods...)
+	}
+
+	if rule.Headers != nil {
+		for k, v := range rule.Headers {
+			route.Headers(k, v)
+		}
+	}
+
+	if rule.Queries != nil {
+		for k, v := range rule.Queries {
+			route.Queries(k, v)
+		}
+	}
+
+	route.Handler(&rule)
+
 	return nil
 }
 

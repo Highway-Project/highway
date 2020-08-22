@@ -6,14 +6,14 @@ import (
 )
 
 type RuleSpec struct {
-	ServiceName     string              `mapstructure:"service"`
-	Schema          string              `default:"http" mapstructure:"schema"`
-	PathPrefix      string              `default:"/" mapstructure:"pathPrefix"`
-	Hosts           []string            `mapstructure:"hosts"`
-	Methods         []string            `mapstructure:"methods"`
-	Headers         map[string][]string `mapstructure:"headers"`
-	Queries         map[string]string   `mapstructure:"queries"`
-	MiddlewareNames []string            `mapstructure:"middlewares"`
+	ServiceName     string            `mapstructure:"service"`
+	Schema          string            `default:"http" mapstructure:"schema"`
+	PathPrefix      string            `default:"/" mapstructure:"pathPrefix"`
+	Hosts           []string          `mapstructure:"hosts"`
+	Methods         []string          `mapstructure:"methods"`
+	Headers         map[string]string `mapstructure:"headers"`
+	Queries         map[string]string `mapstructure:"queries"`
+	MiddlewareNames []string          `mapstructure:"middlewares"`
 }
 
 func (r RuleSpec) Validate() error {
