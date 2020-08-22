@@ -7,11 +7,11 @@ import (
 	"net/http"
 )
 
-type MuxRouter struct {
+type GorillaRouter struct {
 	router *mux.Router
 }
 
-func (r *MuxRouter) AddRule(rule rules.Rule) error {
+func (r *GorillaRouter) AddRule(rule rules.Rule) error {
 	route := r.router.Schemes(rule.Schema).PathPrefix(rule.PathPrefix)
 
 	if rule.Hosts != nil {
@@ -41,14 +41,12 @@ func (r *MuxRouter) AddRule(rule rules.Rule) error {
 	return nil
 }
 
-func (r *MuxRouter) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+func (r *GorillaRouter) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	r.router.ServeHTTP(w, req)
 }
 
 func New(options router.RouterOptions) (router.Router, error) {
-	var router router.Router
-	router = &MuxRouter{
+	return &GorillaRouter{
 		router: mux.NewRouter(),
-	}
-	return router, nil
+	}, nil
 }
