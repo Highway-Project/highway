@@ -44,6 +44,7 @@ rules:
       key2: val2
     middlewares:
       - custom
+      - prometheus
       - do-nothing
       - cors
       - ratelimit
@@ -55,6 +56,7 @@ middlewares:
     params:
       key: Hello
       val: World
+  - middlewareName: prometheus
   - middlewareName: nothing
     refName: do-nothing
     params:

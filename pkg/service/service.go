@@ -1,9 +1,11 @@
 package service
 
 import (
+	"context"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"strconv"
 )
 
 type Service struct {
@@ -26,6 +28,23 @@ func (s *Service) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	proxy := httputil.NewSingleHostReverseProxy(remote)
+	proxy.ModifyResponse = func(response *http.Response) error {
+		ctx := r.Context()
+		v := ctx.Value("metrics")
+		var metrics map[string]string
+		if v == nil {
+			metrics = make(map[string]string)
+		} else {
+			metrics = v.(map[string]string)
+		}
+		metrics["status"] = strconv.Itoa(response.StatusCode)
+		metrics["service"] = s.Name
+		metrics["backend"] = uri.Addr
+		ctx = context.WithValue(ctx, "metrics", metrics)
+		r = r.WithContext(ctx)
+
+		return nil
+	}
 	proxy.ServeHTTP(w, r)
 }
 
