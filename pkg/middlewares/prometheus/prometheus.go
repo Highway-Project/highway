@@ -3,6 +3,7 @@ package prometheus
 import (
 	"github.com/Highway-Project/highway/pkg/middlewares"
 	"net/http"
+	"strconv"
 )
 
 type PrometheusMiddleware struct {
@@ -41,8 +42,31 @@ func (pm PrometheusMiddleware) Process(handler http.HandlerFunc) http.HandlerFun
 		if !ok {
 			return
 		}
+
+		length, ok := metrics["contentLength"]
+		if !ok {
+			return
+		}
+		contentLength, err := strconv.ParseFloat(length, 64)
+		if err != nil {
+			return
+		}
+
+		rt, ok := metrics["responseTime"]
+		if !ok {
+			return
+		}
+		responseTime, err := strconv.ParseFloat(rt, 64)
+		if err != nil {
+			return
+		}
+		responseTime = responseTime * 10e-9 // Convert nanosecond to second
+
 		method := r.Method
+
 		HTTPRequestsCount.WithLabelValues(rule, service, backend, method, status).Inc()
+		HTTPResponseSizeBytes.WithLabelValues(rule, service, backend, method, status).Add(contentLength)
+		HTTPResponseTimeSeconds.WithLabelValues(rule, service, backend, method, status).Observe(responseTime)
 	}
 }
 
