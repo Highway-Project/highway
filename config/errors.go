@@ -102,6 +102,8 @@ func (r RouterValidationError) Error() string {
 type RuleValidationError struct {
 	NameError                   bool
 	NameErrorMessage            string
+	ServiceNameError            bool
+	ServiceNameErrorMessage     string
 	SchemaError                 bool
 	SchemaErrorMessage          string
 	PathPrefixError             bool

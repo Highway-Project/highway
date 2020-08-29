@@ -9,6 +9,8 @@ import (
 	"github.com/Highway-Project/highway/internal/service"
 	"github.com/Highway-Project/highway/logging"
 	pkgRouter "github.com/Highway-Project/highway/pkg/router"
+	"github.com/Highway-Project/highway/pkg/rules"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"net/http"
 	"time"
 )
@@ -19,6 +21,21 @@ func NewServer(global config.GlobalConfig, routerSpec config.RouterSpec, service
 	})
 	if err != nil {
 		logging.Logger.WithError(err).Fatal("could not create router")
+	}
+
+	metricRule := rules.Rule{
+		Name:       "metrics",
+		Schema:     "http",
+		Methods:    []string{"GET"},
+		PathPrefix: "/metrics",
+	}
+	err = metricRule.SetHandler(promhttp.Handler())
+	if err != nil {
+		logging.Logger.WithError(err).Fatal("could not set prometheus metrics handler")
+	}
+	err = r.AddRule(metricRule)
+	if err != nil {
+		logging.Logger.WithError(err).Fatal("could not set prometheus metrics rule")
 	}
 
 	for _, spec := range servicesSpec {

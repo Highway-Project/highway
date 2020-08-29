@@ -8,6 +8,7 @@ import (
 	"github.com/Highway-Project/highway/pkg/middlewares"
 	"github.com/Highway-Project/highway/pkg/middlewares/cors"
 	"github.com/Highway-Project/highway/pkg/middlewares/nothing"
+	"github.com/Highway-Project/highway/pkg/middlewares/prometheus"
 	"github.com/Highway-Project/highway/pkg/middlewares/ratelimit"
 	"plugin"
 )
@@ -21,6 +22,7 @@ func init() {
 	_ = RegisterMiddleware("nothing", nothing.New)
 	_ = RegisterMiddleware("cors", cors.New)
 	_ = RegisterMiddleware("ratelimit", ratelimit.New)
+	_ = RegisterMiddleware("prometheus", prometheus.New)
 }
 
 func RegisterMiddleware(name string, constructor func(params middlewares.MiddlewareParams) (middlewares.Middleware, error)) error {

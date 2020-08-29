@@ -9,7 +9,7 @@ build:
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o bin/highway ./cmd/highway/main.go
 
 .PHONY: run
-run: build
+run:
 	./bin/highway
 
 .PHONY: test

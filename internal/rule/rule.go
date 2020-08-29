@@ -28,7 +28,7 @@ func NewRule(spec config.RuleSpec) (rules.Rule, error) {
 		middlewareList = append(middlewareList, middleware)
 	}
 
-	r, err := rules.NewRule(s, spec.Schema, spec.PathPrefix, spec.Hosts, spec.Methods, spec.Headers, spec.Queries, middlewareList)
+	r, err := rules.NewRule(s, spec.Name, spec.Schema, spec.PathPrefix, spec.Hosts, spec.Methods, spec.Headers, spec.Queries, middlewareList)
 	if err != nil {
 		logging.Logger.WithError(err).Errorf("could not create rule for service %s", spec.ServiceName)
 		return rules.Rule{}, errors.Wrapf(err, "could not create rule for service %s", spec.ServiceName)
