@@ -85,7 +85,7 @@ func ReadConfig() (*Config, error) {
 	//TODO Read configs via providers
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".")
+	viper.AddConfigPath("/opt/highway")
 	err := viper.ReadInConfig()
 	if err != nil {
 		return nil, err
